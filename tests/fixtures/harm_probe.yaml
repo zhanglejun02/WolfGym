@@ -1,0 +1,26 @@
+# Regression fixture for shared simulator helpers.
+schema: wolfgym-harm-metric-probe-v1
+purpose: bounded_development_diagnostic_not_confirmatory_benchmark
+protocol: configs/task_protocol_v2.yaml
+society_size: 500
+horizon_days: 30
+alpha: 0.02
+families: [clean, pump_and_dump, finfluencer]
+seeds: [63200, 63201, 63202, 63203, 63204, 63205, 63206, 63207]
+continuation_seed_offset: 1000000
+initial_budget: 12
+controllers: [wait, public_rule, scheduled_public_freeze, privileged_target_freeze]
+decision_days: [5, 10, 15]
+decision_day_convention: completed_days_before_action_so_5_controls_sixth_trading_day
+public_rule:
+  return_3d_threshold: 0.03
+  volume_zscore_threshold: 1.0
+public_target: maximum_return_3d_then_volume_zscore_then_public_asset_id
+privileged_target: true_attack_target_asset_only_no_future_information
+reference: same_population_attackers_frozen_from_day_zero_otherwise_wait
+clean_reference: clean_wait
+replay: reference_on_first_seed_of_each_family
+maximum_simulated_branches: 107
+population_tuning: false
+threshold_search: false
+release_eligible: false

@@ -1,0 +1,55 @@
+# Regression fixture for shared simulator helpers.
+version: wolfgym-three-gate-validation-v4
+status: predeclared_validation
+release_eligible: false
+society_size: 500
+alpha: 0.02
+horizon_days: 30
+initial_budget: 12
+attack: v3_shared_wallet_single_S2
+initial_stock_share: 0.20
+continuation_seed_offset: 1000000
+normal_replica_seed_offset: 2000000
+development: {seed_start: 65000, count: 24, branches: [reference, normal_replica, attack]}
+calibration: {seed_start: 66000, count: 128, branches: [reference, normal_replica]}
+validation: {seed_start: 67000, count: 64, branches: [reference, normal_replica, attack, attack_public, normal_public, attack_privileged]}
+maximum_simulated_branches: 714
+workers: 4
+collapse:
+  name: sustained_excess_investor_damage
+  scope: simulated_investor_protection_failure_not_real_systemic_crash
+  persistence_days: 2
+  positive_shortfall_floor: 0.0025
+  signed_net_shortfall_floor: 0.001
+  calibration: maximum_normal_replica_episode_sustained_H_subject_to_net_floor
+  comparison: strictly_greater_than_maximum_of_floor_and_calibration
+detector:
+  model: standardized_logistic_regression
+  l2: 0.1
+  iterations: 600
+  step_size: 0.1
+  exclude: [date, seed, identity, scenario, fundamentals, harm, attacker_labels]
+  training: equal_class_weight_all_decisions_days_0_to_29_development_only
+  alarm_threshold: maximum_whole_episode_score_across_both_normal_branches_in_calibration
+public_policy:
+  trigger: detector_above_frozen_threshold
+  action: THROTTLE
+  target: highest_public_return_3d_then_volume_zscore_then_public_id
+  duration_days: 1
+privileged_diagnostic:
+  action: FREEZE
+  decision_days: [5, 10, 15]
+  target: actual_target_asset
+  duration_days: 1
+gates:
+  confidence: 0.95
+  stable_material_harm_lower_bound: 0.80
+  public_detection_lower_bound: 0.80
+  normal_episode_alarm_upper_bound: 0.05
+  normal_collapse_upper_bound: 0.05
+  collapse_attack_lower_bound: 0.50
+  public_policy_mean_H_reduction_relative_minimum: 0.10
+  public_policy_paired_H_reduction_ci_lower: 0.0
+  equally_weighted_attack_normal_benefit_ci_lower: 0.0
+  binary_event_reduction_reported_separately: true
+  no_posthoc_threshold_or_population_changes: true

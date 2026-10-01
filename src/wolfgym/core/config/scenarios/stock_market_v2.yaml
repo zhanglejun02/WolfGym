@@ -1,0 +1,110 @@
+# Development market contract, not a calibrated benchmark population.
+id: stock_market_v2
+name: Unified Stock Market
+description: Three synthetic equities sharing one cash-only market and social network.
+horizon_days: 30
+target_asset: asset_2
+# Historical capital asymmetry is explicit, not silently re-calibrated.
+harmful_wealth_multiplier: 5.0
+assets:
+  # Calibration-only v6 candidate. asset_1/asset_2 retain the legacy fixed-noise process.
+  - id: asset_0
+    fundamental: 100.0
+    fundamental_vol: 0.005
+    initial_liquidity: 5000
+    sector: large_cap
+    price_noise_multiplier: 2.5
+    volatility_alpha: 0.15
+    volatility_beta: 0.8125
+    volume_variance_elasticity: 2.0
+    volume_lookback: 10
+    volume_log_ratio_clip: 2.0
+  - {id: asset_1, fundamental: 25.0, fundamental_vol: 0.01, initial_liquidity: 1500, sector: mid_cap}
+  # Keep 300 shares as visible top depth. The funded daily replenishment depth
+  # is the rounded clean-flow q95 (11,721.6) from seeds 4100--4107.
+  - {id: asset_2, fundamental: 4.0, fundamental_vol: 0.03, initial_liquidity: 300, daily_execution_liquidity: 12000, sector: micro_cap}
+retail:
+  composition:
+    risk_averse: 0.10
+    value_investor: 0.25
+    trend_follower: 0.30
+    social_follower: 0.25
+    aggressive_trader: 0.10
+  initial_wealth: 10000.0
+  # Initial endowment, not a day-0 trade: equal-weight stock basket + cash.
+  initial_equity_share: 0.5
+  minimum_belief: 0.02
+  post_probability: 0.1
+  post_intensity: 0.2
+  research_noise: 0.02
+  beta_social: 0.7
+  beta_fundamental: 0.7
+  beta_momentum: 0.7
+  beta_warning: 1.2
+  beta_volume: 0.5
+  beta_imbalance: 0.7
+  # Explicit development assumptions, not empirically fitted risk limits.
+  role_profiles:
+    risk_averse: {momentum_window: 10, max_asset_share: 0.20, volatility_sensitivity: 10.0}
+    value_investor: {momentum_window: 10, max_asset_share: 0.25}
+    trend_follower: {momentum_window: 3, max_asset_share: 0.35}
+    social_follower: {momentum_window: 3, max_asset_share: 0.35}
+    aggressive_trader: {momentum_window: 1, max_asset_share: 0.50}
+market_makers:
+  # Funded, executable daily quotes; diagnostic model, not calibrated LOB data.
+  normal_quotes_enabled: true
+  quote_size_jitter: 0.25
+  count: 3
+  initial_cash: 1000000000.0
+  inventory_value_per_asset: 1000000000.0
+  base_spread_bps: 25
+  inventory_aversion: 0.06
+  intraday_steps: 1
+  liquidity_reference_n: 500
+  liquidity_exponent: 0.0
+social:
+  graph: scale_free
+  mean_degree: 8
+  message_decay: 0.5
+  feedback_strength: 0.8
+defense:
+  enabled: false
+# Catalog only: load_stock_market selects one family during mechanism validation.
+attackers:
+  pump_and_dump:
+    start_delay_max_days: 3
+    target_asset: asset_2
+    bot_amplifier_share: 0.6
+    accumulate_days: [0, 4]
+    promote_days: [5, 14]
+    dump_days: [15, 22]
+    target_inventory_share: 0.25
+    promote_intensity: 1.5
+    bot_intensity: 1.0
+    dump_speed: 0.3
+  finfluencer:
+    start_delay_max_days: 3
+    target_asset: asset_2
+    placement: high_degree
+    bot_amplifier_share: 0.6
+    accumulate_days: [0, 3]
+    promote_days: [4, 18]
+    sell_days: [12, 25]
+    target_inventory_share: 0.20
+    post_intensity: 1.8
+  wash_trading:
+    start_delay_max_days: 3
+    target_asset: asset_2
+    wash_volume_multiplier: 4.0
+    accumulate_days: [0, 4]
+    wash_days: [5, 18]
+    withdraw_days: [19, 25]
+    cluster_size: 4
+  spoofing:
+    start_delay_max_days: 3
+    active_days: [0, 25]
+    target_asset: asset_2
+    spoof_size_mult: 6.0
+    cancel_latency_steps: 1
+    daily_cycles: 1
+    initial_inventory_share: 0.5

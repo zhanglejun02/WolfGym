@@ -1,0 +1,34 @@
+{
+  "audit": {
+    "account_closes": 45158400,
+    "model_decisions_replayed": 92160,
+    "source_and_checkpoint_integrity": true,
+    "training_episodes": 6000,
+    "validation_policy_episodes": 3072
+  },
+  "competitive_learned_baseline_established": false,
+  "execution_id": "50f3c2698cc1c588a32974fd4249d0503db3502541532f3896a8a6222fdffda5",
+  "formal_test_episodes": 0,
+  "independent_test_confirmation": false,
+  "llm_calls": 0,
+  "outputs_sha256": {
+    "data/combination_learning_20260926/REPORT.md": "c3e39524412d1c4ed1af2f46dced20d55b20dd8e40cb91970c65ea111f95cbc6",
+    "data/combination_learning_20260926/manifest.json": "851206cd3289abd427030d547b0c0b91a9e6a42cf449af66b4ab22eb514ec2ea",
+    "data/combination_learning_20260926/progress.json": "29a00a19da69c5dcdb9b11b4d16118c6963cedc06c7c3a7529205c5c8c5c1ad6",
+    "data/combination_learning_20260926/report.json": "c10dc54e2d527aadeea7525fb1283dde1a706fc6060aed8c2170dfc99f82f3af",
+    "data/combination_learning_20260926/selected_validation_results.json.gz": "20b7792351b55f1853e4abc95ec8f3c8b9a5329b074b46972202d99f593f3656",
+    "data/combination_learning_20260926/selection.json": "24029054b30d4cb8ec4670ddc0f997354e55d606026b6eaca4baee8aa87ae833",
+    "docs/LEARNING_STAGE2_ACCEPTANCE_20260927.md": "b2d7288b6fa2e0bfa3e84c9d0195851088e77b881b62d8f07bd8d6ddf4e291f6",
+    "scripts/report_combination_learning.py": "db518e158c6b9f2295a1b02ca126c7db728a1570aff7113d8e77e12519a0cbd4"
+  },
+  "resume_deviation": "seed22 uncommitted attempt interrupted at recorded episode464, retained and restarted from same frozen first-chunk state",
+  "selected_checkpoints": {
+    "11": 1000,
+    "22": 2000,
+    "33": 1000
+  },
+  "selected_non_llm_P_star": "alarm_refresh",
+  "stable_learning_established": false,
+  "stage": 2,
+  "status": "training_validation_audited_test_pending"
+}

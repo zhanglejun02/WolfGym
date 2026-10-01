@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wolfgym"
+version = "0.1.0"
+description = "Budget-constrained risk intervention in simulated financial markets"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "networkx>=3.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "pytest-cov>=4.1", "ruff>=0.1"]
+plot = ["matplotlib>=3.7"]
+llm = ["openai>=1.40", "python-dotenv>=1.0"]
+rl = [
+    "gymnasium>=0.29,<2",
+    "stable-baselines3>=2.3,<3",
+    "sb3-contrib>=2.3,<3",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"wolfgym.core" = ["config/*.yaml", "config/scenarios/*.yaml"]
+"wolfgym.env" = ["combination_v51.json"]
+"wolfgym.benchmark" = ["combination_splits_v1.json"]
+"wolfgym.evaluation" = ["combination_input_dictionary_v2.txt"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers"

@@ -1,0 +1,80 @@
+# Secrets and machine-local configuration
+.env
+.env.*
+!.env.example
+secrets/
+credentials/
+*.pem
+*.key
+.codex/
+
+# Python environments, bytecode, and tool caches
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+/env/
+/ENV/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.tox/
+.nox/
+.ipynb_checkpoints/
+.coverage
+.coverage.*
+htmlcov/
+
+# Build and packaging artifacts
+/build/
+/dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# Local experiment outputs; preserve expensive runs outside Git
+/data/*
+!/data/README.md
+
+# Small frozen artifacts required by the public experiment contract
+!/data/task_validation_v4_20260923/
+/data/task_validation_v4_20260923/*
+!/data/task_validation_v4_20260923/detector.json
+!/data/combination_learning_20260926/
+/data/combination_learning_20260926/*
+!/data/combination_learning_20260926/acceptance.json
+
+# Run outputs and scratch directories
+/outputs/
+/output/
+/artifacts/
+/checkpoints/
+/cache/
+/tmp/
+/generated/
+*.sqlite
+*.sqlite-*
+*.sqlite.lock
+*.sqlite3
+*.sqlite3-*
+*.sqlite3.lock
+*.db
+*.db-*
+*.log
+*.pid
+*.pth
+*.ckpt
+*.pt
+*.safetensors
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+__MACOSX/
+.vscode/
+.idea/
+*~
+*.swp
+*.swo

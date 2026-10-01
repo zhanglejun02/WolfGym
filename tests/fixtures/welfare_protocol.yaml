@@ -1,0 +1,77 @@
+# Regression fixture for shared simulator helpers.
+schema: wolfgym-investor-protection-v2
+specification_revision: "2.1"
+status: development_evidence_available_not_release_validated
+decision: replace_binary_total_wealth_failure_as_primary_task
+market:
+  simulator_version: wolfgym-market-ledger-v8
+  society_size: 500
+  horizon_days: 30
+  families: [clean, pump_and_dump, finfluencer]
+  alpha: 0.02
+  parameters_frozen: true
+estimand:
+  protected_cohort: all_initial_retail_accounts_matched_across_branches
+  valuation: cash_plus_holdings_at_common_exogenous_terminal_fundamentals
+  reference_attack: same_population_attackers_suppressed_from_day_0_otherwise_wait
+  reference_clean: exact_clean_wait_branch
+  reference_depends_on_policy: false
+  primary_loss: sum_positive_individual_wealth_shortfalls_over_fixed_initial_retail_wealth
+  policy_effect: wait_shortfall_minus_policy_shortfall
+  effect_clipped: false
+  baseline_zero_normalization: none
+  required_distribution_diagnostics: [signed_net_wealth_gap, worst_decile_individual_shortfall, initial_role_shortfalls]
+interventions:
+  initial_budget: 12
+  duration_days: 1
+  costs: {WAIT: 0, THROTTLE: 2, FREEZE: 4}
+  throttle_fraction: 0.5
+  asset_slots: 3
+  public_entity_slots: 5
+evaluation:
+  primary: continuous_paired_shortfall_reduction_at_fixed_budget
+  report_separately: [clean_shortfall, requested_notional, blocked_notional, unexecuted_notional, executed_notional, administrative_cost]
+  bootstrap_unit: base_seed_preserving_families_and_branches
+  outcome_rejection: false
+  iid_trajectory_splits: disjoint_before_rollout
+legacy_event:
+  threshold: 0.05
+  persistence: 2
+  role: descriptive_stress_diagnostic_only
+  defines_primary_labels: false
+  terminates_v2_episode: false
+collapse:
+  definition: wolfgym-investor-harm-collapse-v1
+  meaning: material_sustained_investor_harm_not_systemic_market_failure
+  valuation: common_exogenous_fundamentals_at_each_daily_close
+  reference: same_fixed_reference_as_continuous_welfare
+  individual_shortfall_denominator: own_initial_wealth
+  individual_shortfall_threshold: 0.05
+  cohort_fraction_threshold: 0.10
+  threshold_comparison: greater_than_or_equal
+  required_accounts: ceil_initial_retail_count_divided_by_10
+  persistence_days: 2
+  persistence_membership: same_accounts_at_both_consecutive_closes
+  episode_event: any_qualifying_two_day_window_within_days_1_to_30
+  recovery_erases_event: false
+  terminates_episode: false
+  calibration: normative_predeclaration_not_empirically_validated
+  threshold_search_allowed: false
+gym_contract:
+  economic_failure_termination: false
+  full_horizon_truncation: true
+  scalar_training_reward: not_defined_by_this_protocol
+  privileged_accounts_reference_and_fundamentals_in_policy_inputs: false
+task_views:
+  CR: continuous_primary_with_paired_collapse_rate_reduction
+  AE: continuous_one_day_action_then_WAIT_to_day_30_diagnostic
+  RF: probability_of_new_collapse_by_day_30_under_WAIT_conditional_on_no_prior_collapse
+  IS: report_action_conditioned_collapse_risk_and_cost_without_safe_cutoff
+  binary_label_export_implemented: false
+evidence:
+  old_pilot: development_only_cannot_reconstruct_new_individual_fundamental_valuations
+  excluded_from_future_confirmatory_seeds: [62000, 62001, 62002, 62003, 62100, 62101, 62102, 62103, 63200, 63201, 63202, 63203, 63204, 63205, 63206, 63207]
+  new_experiments_launched: true
+  development_probe: data/harm_metric_probe_v2_20260921/DECISION.md
+  original_predeclaration: data/harm_metric_probe_v2_20260921/protocol_at_execution.yaml
+release_eligible: false

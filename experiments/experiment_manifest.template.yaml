@@ -1,0 +1,66 @@
+schema_version: wolfgym-experiment-manifest-v1
+experiment_id: EXP-YYYYMMDD-NNN-short-name
+title: ""
+kind: evaluation  # data_generation | evaluation | training | agentic_rl
+status: planned   # planned | running | completed | failed | superseded
+created_at: YYYY-MM-DDTHH:MM:SS+08:00
+completed_at: null
+owner: ""
+objective: ""
+supersedes: null
+
+code:
+  git_commit: null
+  git_dirty: null
+  source_tree_sha256: null
+  source_scope: [src, scripts, tests, docs]
+  source_tree_hash_command: "rg --files --hidden -0 src scripts tests docs | sort -z | xargs -0 shasum -a 256 | shasum -a 256"
+  environment_lock_path: null
+  environment_lock_sha256: null
+
+data:
+  - name: ""
+    version: ""
+    split: ""
+    path: ""
+    sha256: ""
+    record_count: null
+    schema_version: ""
+    protocol_fingerprint: ""
+    proposal_fingerprint: null
+    labeling_fingerprint: null
+
+configuration:
+  command: ""
+  files:
+    - path: ""
+      sha256: ""
+  seeds: {}
+  hyperparameters: {}
+  prompt_version: null
+  prompt_sha256: null
+
+model:
+  provider: null
+  model_id: null
+  revision: null
+  backend: null
+  credential_env_var: null
+  artifact_uri: null
+  artifact_sha256: null
+
+metrics:
+  primary: {}
+  slices: {}
+  report_path: null
+  report_sha256: null
+
+artifacts: []
+
+deployment:
+  stage: none      # none | staging | production | retired
+  alias: null
+  deployed_at: null
+  rollback_experiment_id: null
+
+notes: []

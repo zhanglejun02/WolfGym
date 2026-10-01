@@ -1,0 +1,14 @@
+# Regression fixture for shared simulator helpers.
+schema: wolfgym-switching-probe-v1
+protocol: configs/task_protocol_v3.yaml
+society_size: 500
+alpha: 0.02
+horizon_days: 30
+seeds: [64100, 64101, 64102, 64103]
+continuation_seed_offset: 1000000
+initial_budget: 12
+decision_days: [5, 10, 15]
+public_rule: {return_3d_threshold: 0.03, volume_zscore_threshold: 1.0}
+maximum_simulated_branches: 66
+workers: 2
+release_eligible: false
